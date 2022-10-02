@@ -23,6 +23,7 @@
         <button id="get-private-key" class="btn">Get Private Key</button>
         <button id="read-contract" class="btn">Read Contract</button>
         <button id="write-contract" class="btn">Write Contract</button>
+        <button id="mint-nft" class="btn">Mint NFT</button>
 
         <button id="logout" class="btn">Logout</button>
 
@@ -80,16 +81,13 @@
             $('#sign-tx').show()
           }
 
-          // Import Biconomy
-          // let Biconomy = window.Biconomy.default
           const biconomy = new Biconomy(web3auth.provider, {
-            apiKey: 'NuSSxYDAx.3de630c2-75c8-4d87-a684-8a66bd1b7117',
+            // apiKey: 'NuSSxYDAx.3de630c2-75c8-4d87-a684-8a66bd1b7117',
+            apiKey: "Ulvqy0t-U.2199245b-275b-4a42-99c5-a5e2b1a12861",
             debug: true,
-            contractAddresses: ['0x3888b4606f9f12ee2e92f04bb0398172bb91765d'],
+            contractAddresses: ['0x124B49bE6FE61AF652dfBAC8F5E3E583c6d5DA3F', '0x3888B4606F9f12eE2e92f04Bb0398172BB91765d'],
           })
-          console.log('biconomy obj', biconomy)
           window.web3biconomy = new Web3(biconomy)
-          console.log('biconomy web3 obj', window.web3biconomy)
         } else {
           $('.btn-logged-out').show()
           $('.btn-logged-in').hide()
@@ -185,6 +183,19 @@
           console.error(error.message)
         }
       })
+
+      $('#mint-nft').click(async function (event) {
+        try {
+          console.log('biconomy web3 obj', window.web3biconomy)
+          const updatedMessage = await rpc.mintNft(window.web3biconomy)
+          $('#code').text(
+            JSON.stringify(['Updated NFT', updatedMessage], null, 2),
+          )
+        } catch (error) {
+          console.error(error.message)
+        }
+      })
+      
 
       $('#logout').click(async function (event) {
         try {
